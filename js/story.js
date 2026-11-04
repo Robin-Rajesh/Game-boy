@@ -1,0 +1,260 @@
+// EMBERSONG — story, characters and chapter metadata.
+
+export const CAST = {
+  lio:    { name: 'Lio',          color: '#ffcf6b', voice: 79 },
+  maren:  { name: 'Maren',        color: '#ffd9a0', voice: 64 },
+  juno:   { name: 'Juno',         color: '#ff5fd2', voice: 84 },
+  sefa:   { name: 'Sefa',         color: '#ffb35c', voice: 69 },
+  moss:   { name: 'Old Moss',     color: '#8fe388', voice: 52 },
+  vesper: { name: 'Vesper',       color: '#7fdcff', voice: 76 },
+  hush:   { name: 'The Hush',     color: '#c9c9d6', voice: 45 },
+  rest:   { name: 'Rest',         color: '#e8e8ff', voice: 72 },
+};
+
+// Companions who join Lio's "Choir" — each one orbits and sings (shoots) with you.
+export const COMPANIONS = {
+  maren:  { color: '#ffc46b', name: "Maren's Lantern" },
+  juno:   { color: '#ff4fd8', name: "Juno's Beat" },
+  sefa:   { color: '#ffa04a', name: "Sefa's Voice" },
+  moss:   { color: '#7dff8a', name: 'The Seed of Moss' },
+  vesper: { color: '#6fd8ff', name: "Vesper's Star" },
+  rest:   { color: '#ffffff', name: 'Rest' },
+};
+
+// Script grammar: {n:''} narration · {who, t} dialog · {fx:'flash'|'shake'|'whiteout'}
+// {music:'name'} · {companion:'id'} · {wait:sec} · {choice:[{label, value}]}
+export const CHAPTERS = [
+  {
+    id: 'coast', num: 'I', title: 'The Drowned Coast', tagline: 'where the last light still burns',
+    song: 'coast', bg: 'coast', skin: 'moth', boss: 'tidewarden', modifier: 'rain', companion: 'maren',
+    colors: { enemy: '#9ec9ff', bullet: '#7ab8ff', bullet2: '#d7ecff', accent: '#ffd27a' },
+    intro: [
+      { music: 'coast' },
+      { n: 'Once, the world of Aster was sung into being.' },
+      { n: 'Every river had a melody. Every city, a rhythm. Every star, a single shining note.' },
+      { n: 'Then the Hush came. Where it passed, colour faded… and the songs were forgotten.' },
+      { n: 'On the Drowned Coast, in the last lighthouse, one flame still burned.' },
+      { who: 'maren', t: 'There you are, little spark. Don\'t be frightened. You\'re the brightest thing I\'ve made in sixty years.' },
+      { who: 'lio', t: '…Who… am I?' },
+      { who: 'maren', t: 'You\'re Lio. An ember from the lighthouse flame. And I\'m afraid you\'re our last hope.' },
+      { who: 'maren', t: 'The Hush has eaten the verses of the world\'s song. Without them, Aster forgets itself.' },
+      { who: 'maren', t: 'Find the Echoes, fragments of the old song. Each one you gather brings a little of the music back.' },
+      { who: 'maren', t: 'Drag anywhere to move your light. You\'ll sing on the beat without even trying.' },
+      { who: 'maren', t: 'And Lio… whatever you find at the end of the silence, listen before you burn it.' },
+    ],
+    chatter: [
+      [3, 'maren', 'Moths of the Hush. They hunger for light. Show them a brighter one!'],
+      [20, 'maren', 'Graze their shots to charge your Crescendo. Then let it all out!'],
+      [44, 'maren', 'Golden sparks make your flame stronger. Catch them!'],
+      [70, 'maren', 'The tide is rising. Steady now…'],
+    ],
+    echoLines: ['The tide remembers its bassline…', 'Hear that? Piano, like rain on the glass.', 'A heartbeat under the waves!', 'The melody… the sea is singing it.'],
+    preBoss: [{ who: 'maren', t: 'The Tidewarden. The old harbour bell. It used to call the ships home. Now it calls only silence.' }],
+    outro: [
+      { music: 'title' },
+      { who: 'maren', t: 'The bell rings true again. Listen… the sea is singing.' },
+      { who: 'maren', t: 'Follow the shore east, to the city of Velvet Static. They say the music died there first.' },
+      { who: 'lio', t: 'Will you come with me?' },
+      { who: 'maren', t: 'Oh, little one. I\'ve kept this light burning for a long time. Let me rest inside yours.' },
+      { fx: 'whiteout' },
+      { companion: 'maren' },
+      { n: 'The lighthouse dimmed. And Lio burned a little brighter.' },
+    ],
+  },
+  {
+    id: 'city', num: 'II', title: 'Velvet Static', tagline: 'the city that forgot how to dance',
+    song: 'city', bg: 'city', skin: 'cube', boss: 'staticking', modifier: 'pulse', companion: 'juno',
+    colors: { enemy: '#ff4fd8', bullet: '#ff4fd8', bullet2: '#4ff3ff', accent: '#4ff3ff' },
+    intro: [
+      { music: 'city' },
+      { who: 'juno', t: 'WHOA. A walking light show! Er… floating. Floating light show.' },
+      { who: 'juno', t: 'Name\'s Juno. Resident DJ of Velvet Static, back when people still danced.' },
+      { who: 'lio', t: 'What happened here?' },
+      { who: 'juno', t: 'The Static King happened. He took over every screen in the city. Now everyone just… stares. No beat. No feet.' },
+      { who: 'juno', t: 'I blew my groove-core trying to stop him. But you? You\'re running on pure rhythm, baby.' },
+      { who: 'juno', t: 'Let\'s turn this city back ON.' },
+    ],
+    chatter: [
+      [3, 'juno', 'Those static-cubes pulse on the beat. Feel the rhythm and you\'ll see them coming.'],
+      [36, 'juno', 'You\'re doing it! The billboards are flickering back to colour!'],
+      [66, 'juno', 'Bigger signal incoming. Don\'t blink. Do you even blink?'],
+    ],
+    echoLines: ['THAT\'S my bassline! Oh, I missed you, bassline.', 'Kick drum, back online!', 'Arpeggiator! Now we\'re cooking!', 'Lead synth! The whole city can hear us!'],
+    preBoss: [{ who: 'juno', t: 'There he is. His Royal Lowness, the Static King. Change the channel, Lio!' }],
+    outro: [
+      { music: 'title' },
+      { who: 'juno', t: 'Look at them… they\'re dancing. They\'re actually DANCING!' },
+      { who: 'juno', t: 'I\'m coming with you. Every choir needs a drummer.' },
+      { companion: 'juno' },
+      { who: 'juno', t: 'Next stop: the Glass Desert. Bring sunscreen. Do embers need sunscreen?' },
+      { who: 'lio', t: '…I don\'t think so?' },
+    ],
+  },
+  {
+    id: 'desert', num: 'III', title: 'The Glass Desert', tagline: 'where the sand remembers fire',
+    song: 'desert', bg: 'desert', skin: 'shard', boss: 'wyrm', modifier: 'wind', companion: 'sefa',
+    colors: { enemy: '#ffc46b', bullet: '#ff9d3c', bullet2: '#7ff7ff', accent: '#ffe08a' },
+    intro: [
+      { music: 'desert' },
+      { who: 'sefa', t: 'You burn brightly, traveller. Careful. The sand here remembers fire. It turned to glass the last time the world screamed.' },
+      { who: 'sefa', t: 'I am Sefa. My people were sand-singers. We guided caravans across the dunes by melody alone.' },
+      { who: 'sefa', t: 'When the Hush came, the Hourglass Wyrm swallowed our song… and my family with it.' },
+      { who: 'lio', t: 'Then we\'ll get them back.' },
+      { who: 'juno', t: 'Yeah! What Lio said! With a sick beat!' },
+      { who: 'sefa', t: '…Perhaps. Watch for the wind. It will push you where it pleases.' },
+    ],
+    chatter: [
+      [4, 'sefa', 'The wind rises. Lean against it, and it will carry their arrows too.'],
+      [40, 'juno', 'Sand in my circuits. Sand EVERYWHERE.'],
+      [68, 'sefa', 'I can feel it beneath us. Time grinding in its belly.'],
+    ],
+    echoLines: ['The dunes are humming…', 'Drums of the caravan!', 'The kanun… my father played it.', 'My mother\'s melody. I had nearly forgotten it.'],
+    preBoss: [{ who: 'sefa', t: 'It rises. The Hourglass Wyrm. Strike its head, and do not stand in its path.' }],
+    outro: [
+      { music: 'title' },
+      { who: 'sefa', t: 'The sands are singing. Do you hear them? Thousands of voices… my family among them.' },
+      { who: 'sefa', t: 'They tell me to go with you. They tell me to sing.' },
+      { companion: 'sefa' },
+      { who: 'sefa', t: 'North, beneath the earth, lies the Rootdeep. Something old sleeps there.' },
+    ],
+  },
+  {
+    id: 'forest', num: 'IV', title: 'The Rootdeep', tagline: 'a forest dreaming underground',
+    song: 'forest', bg: 'forest', skin: 'spore', boss: 'rotqueen', modifier: 'spores', companion: 'moss',
+    colors: { enemy: '#b07bff', bullet: '#c07bff', bullet2: '#8dff9a', accent: '#8dff9a' },
+    intro: [
+      { music: 'forest' },
+      { who: 'moss', t: 'Hmmm? Hmmmmmm. A light. In the Rootdeep. How… unusual. How… bright.' },
+      { who: 'moss', t: 'I am Old Moss. I have been asleep for… what year is it? No matter. Hmm.' },
+      { who: 'juno', t: '…Is he okay?' },
+      { who: 'sefa', t: 'He is a tree, Juno. He is thinking.' },
+      { who: 'moss', t: 'The Rot Queen has made the forest forget how to grow. Mushrooms are such gossips. They spread everything. Even silence.' },
+      { who: 'moss', t: 'Restore the song of the roots, little ember. I will… cheer. Slowly.' },
+    ],
+    chatter: [
+      [4, 'moss', 'Mind the spore clouds. They make you… sluggish. Like me. Hmm.'],
+      [38, 'moss', 'Hmmmmm…  …  …oh, I am still talking. Go on.'],
+      [66, 'juno', 'The mushrooms are glowing in time with the music! That\'s so cool.'],
+    ],
+    echoLines: ['Ah… the roots are humming. Delightful.', 'A drowsy little beat. Hmmm.', 'Kalimba! The beetles love this one.', 'The song of the grove. Oh, I remember now.'],
+    preBoss: [{ who: 'moss', t: 'Her Majesty. Rotting. Regally. Do be careful, she sheds.' }],
+    outro: [
+      { music: 'title' },
+      { who: 'moss', t: 'The forest breathes again. Thank you, little ember.' },
+      { who: 'moss', t: 'Before you go: the Hush is not what you think. It is not evil. It is hungry. There is a difference.' },
+      { who: 'moss', t: 'Climb the Aurora Spire. The stargazer there has been listening to it for a very long time.' },
+      { who: 'moss', t: 'Take this seed. Plant it somewhere… quiet.' },
+      { companion: 'moss' },
+    ],
+  },
+  {
+    id: 'aurora', num: 'V', title: 'The Aurora Spire', tagline: 'where the stars are going out',
+    song: 'aurora', bg: 'aurora', skin: 'star', boss: 'starless', modifier: 'gravity', companion: 'vesper',
+    colors: { enemy: '#6fd8ff', bullet: '#6fd8ff', bullet2: '#ff8ae0', accent: '#b9a4ff' },
+    intro: [
+      { music: 'aurora' },
+      { who: 'vesper', t: 'You made it! I\'ve been watching you through my telescope since the coast.' },
+      { who: 'vesper', t: 'I\'m Vesper. I map the stars. Well… what\'s left of them. The Hush is pulling them out of the sky, one by one.' },
+      { who: 'vesper', t: 'The Starless Eye guards the top of the Spire. Get past it, and you\'ll reach the Hush itself.' },
+      { who: 'lio', t: 'Old Moss said you\'ve been listening to it.' },
+      { who: 'vesper', t: '…Yes. Every night. And I think… I think it\'s crying.' },
+    ],
+    chatter: [
+      [4, 'vesper', 'Gravity wells! They\'ll bend you, and every bullet near them.'],
+      [40, 'vesper', 'The constellations are relighting! That one looks like Juno.'],
+      [43, 'juno', 'Accurate.'],
+      [70, 'sefa', 'The sky trembles. It knows we are coming.'],
+    ],
+    echoLines: ['Starlight arpeggios!', 'A pulse, like a comet\'s tail!', 'The drums of the heavens!', 'The aurora is singing. Can you hear the choir?'],
+    preBoss: [{ who: 'vesper', t: 'The Starless Eye. It sees everything… except itself.' }],
+    outro: [
+      { music: 'hush' },
+      { who: 'vesper', t: 'Lio, wait. Before you go into the Hush, you need to know what it is.' },
+      { who: 'vesper', t: 'Every song is made of notes. But music isn\'t only sound. It\'s the spaces between, too. The rests.' },
+      { who: 'vesper', t: 'When Aster was sung into being, the Choirs sang so loud, so endlessly, that they forgot the silence. They left it out.' },
+      { who: 'vesper', t: 'It\'s been alone since the very first note. Unheard. Hungry for a place in the song.' },
+      { who: 'vesper', t: 'That\'s the Hush. It isn\'t the end of music. It\'s the part we forgot.' },
+      { who: 'maren', t: '(…listen before you burn it, Lio.)' },
+      { companion: 'vesper' },
+    ],
+  },
+  {
+    id: 'hush', num: 'VI', title: 'The Hush', tagline: 'the silence at the end of the song',
+    song: 'hush', bg: 'hush', skin: 'void', boss: 'hush', modifier: 'grey', companion: null,
+    colors: { enemy: '#d7d7e6', bullet: '#ffffff', bullet2: '#9aa0c0', accent: '#ffffff' },
+    intro: [
+      { music: 'hush' },
+      { n: 'Beyond the Spire, there was nothing at all.' },
+      { who: 'hush', t: '…' },
+      { who: 'hush', t: '…you are loud.' },
+      { who: 'hush', t: 'everything is loud. always singing. never stopping. never listening.' },
+      { who: 'hush', t: 'i will make it quiet. i will make it all quiet.' },
+      { who: 'juno', t: 'Uh. Lio? It\'s kind of… big.' },
+      { who: 'sefa', t: 'Stand together. Sing together.' },
+    ],
+    chatter: [
+      [3, 'vesper', 'Our voices are fading here. Gather the Echoes, or we\'ll go silent too!'],
+      [40, 'moss', 'So quiet. So very… hmm. Lonely.'],
+      [70, 'hush', 'why do you keep singing?'],
+    ],
+    echoLines: ['Maren\'s piano… she\'s still with us.', 'Juno\'s beat, and Moss\'s roots!', 'Sefa\'s voice cuts through the grey!', 'Vesper\'s stars. The Embersong!'],
+    preBoss: [{ who: 'hush', t: 'come then, little noise.' }],
+    outro: [], // handled by the ending sequence
+  },
+];
+
+// ------------------------------------------------------------------ ENDINGS
+export const FINALE_CHOICE = [
+  { who: 'hush', t: '…' },
+  { who: 'hush', t: 'finish it, then. burn me away.' },
+  { who: 'hush', t: 'and the world will be loud forever.' },
+  { choice: [
+    { label: 'Burn away the silence', value: 'burn' },
+    { label: 'Listen', value: 'listen' },
+  ] },
+];
+
+export const ENDING_LISTEN = [
+  { music: 'ending' },
+  { who: 'lio', t: '…' },
+  { who: 'lio', t: 'I hear you.' },
+  { who: 'hush', t: '…you… hear me?' },
+  { who: 'lio', t: 'Every song needs a place to breathe. Sing with us.' },
+  { fx: 'whiteout' },
+  { n: 'The grey folded in on itself, smaller and smaller, until it was only a soft little light, shy and new.' },
+  { who: 'rest', t: '…hello.' },
+  { who: 'vesper', t: 'It has a name now. Doesn\'t it? Every note needs one.' },
+  { who: 'rest', t: 'rest. i think… i am rest.' },
+  { who: 'juno', t: 'Rest! Love it. You\'re on the downbeat, little buddy.' },
+  { companion: 'rest' },
+  { n: 'And so the world of Aster learned a new kind of music: one that knew when to be quiet.' },
+  { n: 'On the Drowned Coast, the lighthouse burns again. Its keeper is an ember named Lio.' },
+  { n: 'Every night it sings. And every night, between the notes, it listens.' },
+  { who: 'maren', t: 'Well done, little spark. Well done.' },
+];
+
+export const ENDING_BURN = [
+  { music: 'fortissimo' },
+  { fx: 'flash' },
+  { n: 'Lio burned brighter than any star, and the Hush was gone.' },
+  { n: 'Colour flooded back into Aster: every river, every city, every star blazing at once.' },
+  { who: 'juno', t: 'We… we did it? We did it! Hah! Turn it UP!' },
+  { who: 'vesper', t: '…' },
+  { n: 'The world sang. And sang. And never once stopped.' },
+  { n: 'No lullabies. No pauses. No breath between the verses.' },
+  { who: 'moss', t: 'Hmm. I cannot seem to fall asleep anymore.' },
+  { n: 'Some say that on the quietest nights (though there are no quiet nights now), something feels missing.' },
+  { n: 'ENDING: FORTISSIMO.  Perhaps there was another way…' },
+];
+
+export const CREDITS = [
+  ['EMBERSONG', ''],
+  ['A story about light, music, and listening', ''],
+  ['Design · Code · Story', 'Claude, for robin-rajesh'],
+  ['Original Soundtrack', 'Procedurally performed by the Embersong Synth'],
+  ['Starring', 'Lio · Maren · Juno · Sefa · Old Moss · Vesper · Rest'],
+  ['Featuring', 'The Tidewarden · The Static King · The Hourglass Wyrm · The Rot Queen · The Starless Eye'],
+  ['Built with', 'HTML5 Canvas · Web Audio · no external assets'],
+  ['Special thanks', 'to every silence that made the music possible'],
+  ['', 'Thank you for playing.'],
+];

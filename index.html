@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#05070f">
+<meta name="description" content="EMBERSONG: a story-driven, music-reactive mobile shooter. Restore the song of a silent world.">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Embersong">
+<title>Embersong</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Nunito:wght@400;600;800;900&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="game" aria-label="Embersong game canvas"></canvas>
+
+<div id="ui">
+  <!-- ======================= HUD ======================= -->
+  <div id="hud" class="hidden">
+    <div class="hud-top">
+      <div class="hud-left">
+        <div id="hp" class="hp"></div>
+        <div id="chapter-label" class="chapter-label"></div>
+      </div>
+      <div class="hud-mid">
+        <div id="score" class="score">0</div>
+        <div id="mult" class="mult">×1</div>
+      </div>
+      <div class="hud-right">
+        <div id="echoes" class="echoes"></div>
+        <button id="btn-pause" class="icon-btn" aria-label="Pause">❚❚</button>
+      </div>
+    </div>
+    <div id="bossbar" class="bossbar hidden">
+      <div id="boss-name" class="boss-name"></div>
+      <div class="bar"><div id="boss-fill" class="fill"></div></div>
+    </div>
+    <div id="subtitle" class="subtitle hidden">
+      <canvas id="sub-portrait" width="80" height="80"></canvas>
+      <div><div id="sub-name" class="sub-name"></div><div id="sub-text" class="sub-text"></div></div>
+    </div>
+    <button id="btn-cres" class="cres" aria-label="Crescendo">
+      <span class="cres-ring"></span><span class="cres-label">♪</span>
+    </button>
+  </div>
+
+  <div id="toast" class="toast"><div class="t1"></div><div class="t2"></div></div>
+  <div id="warning" class="warning"><div class="w0">— a great silence approaches —</div><div class="w1"></div><div class="w2"></div></div>
+  <div id="card" class="card"><div class="c0"></div><div class="c1"></div><div class="c2"></div></div>
+  <div id="silence" class="silence">listen</div>
+
+  <!-- ======================= DIALOG ======================= -->
+  <div id="dialog" class="dialog hidden">
+    <div class="dlg-box">
+      <canvas id="portrait" width="200" height="200"></canvas>
+      <div class="dlg-body">
+        <div id="dlg-name" class="dlg-name"></div>
+        <div id="dlg-text" class="dlg-text"></div>
+      </div>
+      <div class="dlg-next">▼</div>
+    </div>
+    <div id="choices" class="choices"></div>
+    <button id="btn-skip" class="skip">Skip ›</button>
+  </div>
+
+  <!-- ======================= SCREENS ======================= -->
+  <div id="screen-boot" class="screen">
+    <div class="boot-inner">
+      <div class="logo small">EMBERSONG</div>
+      <div class="tap">Tap to awaken</div>
+      <div class="hint">🎧 Best with sound on</div>
+    </div>
+  </div>
+
+  <div id="screen-title" class="screen hidden">
+    <div class="title-wrap">
+      <div class="logo">EMBERSONG</div>
+      <div class="tagline">Restore the song of a silent world</div>
+    </div>
+    <div class="menu">
+      <button id="btn-continue" class="btn primary hidden">Continue</button>
+      <button id="btn-new" class="btn">Begin the Song</button>
+      <button id="btn-chapters" class="btn">Chapters</button>
+      <button id="btn-howto" class="btn ghost">How to Play</button>
+      <button id="btn-settings" class="btn ghost">Settings</button>
+    </div>
+    <div class="foot">v1.0 · All music performed live by code</div>
+  </div>
+
+  <div id="screen-chapters" class="screen hidden">
+    <div class="panel">
+      <h2>Chapters</h2>
+      <div id="chapter-list" class="chapter-list"></div>
+      <button class="btn ghost back">Back</button>
+    </div>
+  </div>
+
+  <div id="screen-settings" class="screen hidden">
+    <div class="panel">
+      <h2>Settings</h2>
+      <label class="row">Music <input id="set-music" type="range" min="0" max="1" step="0.05"></label>
+      <label class="row">Sound FX <input id="set-sfx" type="range" min="0" max="1" step="0.05"></label>
+      <label class="row">Steering speed <input id="set-sens" type="range" min="0.8" max="2" step="0.05"></label>
+      <div class="row">Difficulty
+        <div id="set-diff" class="seg">
+          <button data-v="story">Story</button><button data-v="normal">Normal</button><button data-v="hard">Fortissimo</button>
+        </div>
+      </div>
+      <label class="row">Screen shake <input id="set-shake" type="checkbox"></label>
+      <label class="row">Vibration <input id="set-vibe" type="checkbox"></label>
+      <button id="btn-reset" class="btn ghost danger">Erase save data</button>
+      <button class="btn back">Done</button>
+    </div>
+  </div>
+
+  <div id="screen-howto" class="screen hidden">
+    <div class="panel howto">
+      <h2>How to Play</h2>
+      <p><b>Drag anywhere</b> to steer Lio. Your finger never has to cover the ember.</p>
+      <p>Lio <b>sings automatically, on the beat</b>. Every shot is a note in the song.</p>
+      <p>Only the <b>white core</b> of your flame can be hit. <b>Graze</b> bullets to charge your <b>Crescendo</b>.</p>
+      <p>When the ♪ button glows, <b>tap it</b> (or two-finger tap, or press Space) to unleash a wave that clears every bullet.</p>
+      <p>Collect the <b>4 Echoes</b> in each chapter. Each one brings a new instrument back into the music.</p>
+      <p>Golden <b>sparks</b> strengthen your flame. Friends you save join your <b>Choir</b> and sing with you.</p>
+      <p class="dim">Keyboard: WASD / arrows · Shift = precise · Space = Crescendo · P = pause</p>
+      <button class="btn back">Got it</button>
+    </div>
+  </div>
+
+  <div id="screen-pause" class="screen hidden">
+    <div class="panel">
+      <h2>Paused</h2>
+      <button id="btn-resume" class="btn primary">Resume</button>
+      <button id="btn-restart" class="btn">Restart Chapter</button>
+      <button id="btn-pause-settings" class="btn ghost">Settings</button>
+      <button id="btn-quit" class="btn ghost">Return to Title</button>
+    </div>
+  </div>
+
+  <div id="screen-results" class="screen hidden">
+    <div class="panel results">
+      <div class="res-head">Chapter Complete</div>
+      <h2 id="res-title"></h2>
+      <div id="res-rank" class="rank">S</div>
+      <div id="res-stats" class="stats"></div>
+      <button id="btn-next" class="btn primary">Continue</button>
+    </div>
+  </div>
+
+  <div id="screen-over" class="screen hidden">
+    <div class="panel">
+      <h2>The ember flickers…</h2>
+      <p class="dim" id="over-text">But a song is never truly over.</p>
+      <button id="btn-retry" class="btn primary">Rekindle</button>
+      <button id="btn-over-quit" class="btn ghost">Return to Title</button>
+    </div>
+  </div>
+
+  <div id="screen-credits" class="screen hidden">
+    <div id="credits-roll" class="credits-roll"></div>
+    <button id="btn-credits-done" class="btn ghost credits-btn">Return to Title</button>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
