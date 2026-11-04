@@ -117,7 +117,7 @@ export const BOSSES = {
 
   // ===================================================== THE HOURGLASS WYRM
   wyrm: {
-    name: 'THE HOURGLASS WYRM', sub: 'Devourer of Caravans', hp: 2600, segments: 13,
+    name: 'THE HOURGLASS WYRM', sub: 'Devourer of Caravans', hp: 2100, segments: 13,
     init(b, g) { b.x = g.W / 2; b.y = -80; b.trail = []; for (let i = 0; i < 400; i++) b.trail.push([g.W / 2, -80 - i]); b.speedMul = 1; },
     move(b, dt, g) {
       const s = b.speedMul;

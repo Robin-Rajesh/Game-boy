@@ -54,6 +54,12 @@ export class Game {
     this.setCompanions(companions);
   }
 
+  setScene(id) {
+    this.bg = makeBackground(id, this.W, this.H);
+    this.colorAmt = this.colorTarget = 1;
+    this.flash = { col: '#ffffff', a: 0.9 };
+  }
+
   makePlayer(hp, power) {
     return { x: this.W / 2, y: this.H * 0.8, hp, maxHp: hp, inv: 2.5, power, cres: 0, alive: true, fire: true };
   }

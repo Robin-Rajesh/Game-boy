@@ -84,7 +84,7 @@ export class UI {
       box.innerHTML = '';
       for (const o of options) {
         const b = document.createElement('button');
-        b.className = 'btn' + (o.value === 'listen' ? ' primary' : '');
+        b.className = 'btn';
         b.textContent = o.label;
         b.addEventListener('click', (e) => {
           e.stopPropagation(); box.innerHTML = ''; $('btn-skip').classList.remove('hidden');

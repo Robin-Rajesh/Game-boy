@@ -1,5 +1,6 @@
 // Local progress. Every storage access is guarded (private mode, blocked storage…)
 const KEY = 'embersong.save.v1';
+const reducedMotion = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } };
 
 export const DEFAULTS = () => ({
   chapter: 0,          // next chapter to play
@@ -7,7 +8,7 @@ export const DEFAULTS = () => ({
   started: false,
   best: {},            // chapterId -> { score, rank }
   endings: {},         // 'listen' | 'burn' -> true
-  settings: { music: 0.8, sfx: 0.8, sens: 1.25, difficulty: 'normal', shake: true, vibrate: true },
+  settings: { music: 0.8, sfx: 0.8, sens: 1.25, difficulty: 'normal', shake: !reducedMotion(), vibrate: true },
 });
 
 export function loadSave() {

@@ -90,10 +90,18 @@ class App {
     on('btn-quit', () => { this.resume(true); this.toTitle(); });
     on('btn-retry', () => this.beginPlay(this.game.ci, this.game.reachedBoss));
     on('btn-over-quit', () => this.toTitle());
-    on('btn-reset', () => {
-      if (!confirm('Erase all progress?')) return;
+    on('btn-reset', (e) => {
+      // two-tap confirmation (native confirm() dialogs are unavailable in some embeds)
+      const btn = e.currentTarget;
+      if (!btn.dataset.armed) {
+        btn.dataset.armed = '1'; btn.textContent = 'Tap again to erase all progress';
+        clearTimeout(this._resetT);
+        this._resetT = setTimeout(() => { delete btn.dataset.armed; btn.textContent = 'Erase save data'; }, 3000);
+        return;
+      }
+      delete btn.dataset.armed; btn.textContent = 'Erase save data';
       const st = this.settings; this.save = eraseSave(); this.save.settings = st; this.settings = st; writeSave(this.save);
-      this.ui.toast('Save erased', '', 1.5);
+      this.ui.toast('Progress erased', '', 1.5);
     });
 
     // settings controls
@@ -184,10 +192,11 @@ class App {
       if (s.companion) {
         this.game.addCompanion(s.companion);
         this.ui.toast(COMPANIONS[s.companion].name, 'joined your Choir', 2.6);
-        if (!this.ui.skip) await wait(1400);
+        if (!this.ui.skip) await wait(2700);
         continue;
       }
       if (s.choice) { choice = await this.ui.choice(s.choice); continue; }
+      if (s.scene) { this.game.setScene(s.scene); continue; }
       if (s.wait) { if (!this.ui.skip) await wait(s.wait * 1000); continue; }
       if (this.ui.skip) continue;
       await this.ui.dialogLine(s.who || null, s.n || s.t);

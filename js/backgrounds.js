@@ -47,7 +47,7 @@ class Coast extends BG {
     }
     // lighthouse beam sweeping from behind
     const a = -Math.PI / 2 + Math.sin(this.t * 0.35) * 0.9;
-    const ox = x0 + w * 0.15, oy = y0 + h + 60, L = h * 1.6, spread = 0.12;
+    const ox = this.beamO ? this.beamO.x : x0 + w * 0.15, oy = this.beamO ? this.beamO.y : y0 + h + 60, L = h * 1.6, spread = 0.12;
     const bg = c.createRadialGradient(ox, oy, 0, ox, oy, L);
     bg.addColorStop(0, 'rgba(255,220,150,0.22)'); bg.addColorStop(1, 'rgba(255,220,150,0)');
     c.fillStyle = bg;
@@ -351,6 +351,8 @@ class Title extends BG {
   constructor(W, H) { super(W, H); this.coast = new Coast(W, H); this.stars = Array.from({ length: 120 }, () => ({ x: rand(-200, W + 200), y: rand(0, 500), b: rand(0.2, 1) })); }
   update(dt) { super.update(dt, 0); this.coast.update(dt, 18); }
   draw(c, x0, y0, w, h, beat) {
+    const lx = Math.max(x0 + 46, this.W * 0.13), base = y0 + h, top = base - 150;
+    this.coast.beamO = { x: lx, y: top - 10 };
     this.coast.draw(c, x0, y0, w, h, beat);
     c.fillStyle = 'rgba(2,6,16,0.35)'; c.fillRect(x0, y0, w, h);
     for (const s of this.stars) {
@@ -358,6 +360,23 @@ class Title extends BG {
       c.fillStyle = `rgba(230,235,255,${s.b * (0.5 + 0.5 * Math.sin(this.t * 2 + s.x))})`;
       c.fillRect(s.x, y0 + s.y, 1.4, 1.4);
     }
+    // rocks
+    c.fillStyle = '#03060d';
+    c.beginPath(); c.moveTo(x0, base);
+    c.lineTo(x0, base - 40); c.quadraticCurveTo(lx - 50, base - 70, lx - 20, base - 52);
+    c.quadraticCurveTo(lx + 10, base - 62, lx + 40, base - 46); c.quadraticCurveTo(lx + 90, base - 30, lx + 130, base - 8);
+    c.lineTo(lx + 160, base); c.closePath(); c.fill();
+    // tower with stripes
+    c.fillStyle = '#060b16';
+    c.beginPath(); c.moveTo(lx - 16, base - 48); c.lineTo(lx - 10, top); c.lineTo(lx + 10, top); c.lineTo(lx + 16, base - 48); c.closePath(); c.fill();
+    c.fillStyle = 'rgba(120,40,40,0.35)';
+    for (let i = 0; i < 3; i++) { const y = base - 70 - i * 28; c.fillRect(lx - 14 + i * 1.2, y, 28 - i * 2.4, 9); }
+    c.fillStyle = '#060b16'; c.fillRect(lx - 14, top - 4, 28, 5); c.fillRect(lx - 8, top - 22, 16, 18);
+    c.beginPath(); c.moveTo(lx - 10, top - 22); c.lineTo(lx, top - 32); c.lineTo(lx + 10, top - 22); c.fill();
+    c.globalCompositeOperation = 'lighter';
+    glow(c, lx, top - 13, 46 + beat * 12, '#ffb347', 0.75);
+    glow(c, lx, top - 13, 12, '#fff3c0', 1);
+    c.globalCompositeOperation = 'source-over';
   }
 }
 
