@@ -38,12 +38,18 @@ class Coast extends BG {
     }
     // waves
     c.lineCap = 'round';
-    for (const wv of this.waves) {
-      wv.y = wrap(wv.y, y0 - 40, y0 + h + 40);
-      const yy = wv.y + Math.sin(this.t * 1.2 + wv.x * 0.05) * 3;
-      c.strokeStyle = `rgba(120,180,255,${0.04 + wv.d * 0.16 + beat * 0.03})`;
-      c.lineWidth = 0.6 + wv.d * 1.6;
-      c.beginPath(); c.moveTo(wv.x - wv.len / 2, yy); c.quadraticCurveTo(wv.x, yy - 4 * wv.d, wv.x + wv.len / 2, yy); c.stroke();
+    for (let k = 0; k < 4; k++) {
+      const d = (k + 0.5) / 4;
+      c.strokeStyle = `rgba(120,180,255,${0.04 + d * 0.16 + beat * 0.03})`;
+      c.lineWidth = 0.6 + d * 1.6;
+      c.beginPath();
+      for (const wv of this.waves) {
+        if (Math.min(3, Math.floor(wv.d * 4)) !== k) continue;
+        wv.y = wrap(wv.y, y0 - 40, y0 + h + 40);
+        const yy = wv.y + Math.sin(this.t * 1.2 + wv.x * 0.05) * 3;
+        c.moveTo(wv.x - wv.len / 2, yy); c.quadraticCurveTo(wv.x, yy - 4 * wv.d, wv.x + wv.len / 2, yy);
+      }
+      c.stroke();
     }
     // lighthouse beam sweeping from behind
     const a = -Math.PI / 2 + Math.sin(this.t * 0.35) * 0.9;
@@ -135,11 +141,9 @@ class City extends BG {
     c.globalCompositeOperation = 'lighter';
     glow(c, x0 + w / 2, y0 + h * 0.5, h * 0.6, '#8a2bff', 0.12 + beat * 0.08);
     c.globalCompositeOperation = 'source-over';
-    // static speckles + scanlines
+    // static speckles
     c.fillStyle = 'rgba(255,255,255,0.35)';
     for (let i = 0; i < 18; i++) c.fillRect(x0 + Math.random() * w, y0 + Math.random() * h, 1.2, 1.2);
-    c.fillStyle = c.createPattern(this.scan, 'repeat');
-    c.fillRect(x0, y0, w, h);
   }
 }
 

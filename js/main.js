@@ -22,6 +22,9 @@ class App {
   constructor() {
     this.canvas = $('game');
     this.ctx = this.canvas.getContext('2d', { alpha: false });
+    // Backgrounds are soft and glowy: render them at 1x density and upscale.
+    this.bgCanvas = document.createElement('canvas');
+    this.bgCtx = this.bgCanvas.getContext('2d', { alpha: false });
     this.save = loadSave();
     this.settings = this.save.settings;
     this.view = { x0: 0, y0: 0, w: 360, h: 640, cssScale: 1 };
@@ -54,6 +57,8 @@ class App {
     const scale = Math.min(cw / W, ch / H);
     const offX = (cw - W * scale) / 2, offY = (ch - H * scale) / 2;
     this.canvas.width = Math.round(cw * dpr); this.canvas.height = Math.round(ch * dpr);
+    this.bgRes = Math.min(dpr, 1);
+    this.bgCanvas.width = Math.round(cw * this.bgRes); this.bgCanvas.height = Math.round(ch * this.bgRes);
     this.dpr = dpr; this.scale = scale; this.offX = offX; this.offY = offY;
     this.view = { x0: -offX / scale, y0: -offY / scale, w: cw / scale, h: ch / scale, cssScale: scale };
     this.game.resize(H);
@@ -64,10 +69,16 @@ class App {
     this.last = now;
     if (!this.paused) this.game.update(dt);
     else audio.update();
-    const c = this.ctx;
-    c.setTransform(this.dpr * this.scale, 0, 0, this.dpr * this.scale, this.offX * this.dpr, this.offY * this.dpr);
+    const c = this.ctx, bc = this.bgCtx, r = this.bgRes;
+    const [sx, sy] = this.game.shakeOffset();
+    bc.setTransform(r * this.scale, 0, 0, r * this.scale, (this.offX + sx * this.scale) * r, (this.offY + sy * this.scale) * r);
+    bc.globalAlpha = 1; bc.globalCompositeOperation = 'source-over';
+    this.game.drawBackground(bc, this.view);
+    c.setTransform(1, 0, 0, 1, 0, 0);
     c.globalAlpha = 1; c.globalCompositeOperation = 'source-over';
-    this.game.draw(c, this.view);
+    c.drawImage(this.bgCanvas, 0, 0, this.canvas.width, this.canvas.height);
+    c.setTransform(this.dpr * this.scale, 0, 0, this.dpr * this.scale, this.offX * this.dpr, this.offY * this.dpr);
+    this.game.draw(c, this.view, sx, sy);
     this.ui.tick(dt, this.game);
     requestAnimationFrame((t) => this.loop(t));
   }

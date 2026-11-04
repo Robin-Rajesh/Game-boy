@@ -789,11 +789,17 @@ export class Game {
   }
 
   // ============================================================ RENDER
-  draw(c, v) {
+  shakeOffset() {
+    if (this.shake > 0 && this.app.settings.shake) return [rand(-1, 1) * this.shake * 0.5, rand(-1, 1) * this.shake * 0.5];
+    return [0, 0];
+  }
+
+  drawBackground(c, v) { this.bg.draw(c, v.x0, v.y0, v.w, v.h, this.beat); }
+
+  draw(c, v, sx = 0, sy = 0) {
     const { x0, y0, w, h } = v;
     c.save();
-    if (this.shake > 0 && this.app.settings.shake) c.translate(rand(-1, 1) * this.shake * 0.5, rand(-1, 1) * this.shake * 0.5);
-    this.bg.draw(c, x0, y0, w, h, this.beat);
+    c.translate(sx, sy);
 
     if (this.mode === 'title') { this.drawTitleEmber(c); }
 
@@ -861,6 +867,7 @@ export class Game {
     if (p.cres >= 100) glow(c, p.x, p.y, 60 + Math.sin(this.time * 8) * 8, '#fff3c0', 0.25);
     c.globalCompositeOperation = 'source-over';
     this.drawFlame(c, p.x, p.y, 1.3, a);
+    if (!this.running) return;
     // hitbox
     c.fillStyle = '#ffffff'; c.beginPath(); c.arc(p.x, p.y + 1, 2.6, 0, TAU); c.fill();
     c.strokeStyle = 'rgba(255,90,60,0.9)'; c.lineWidth = 1; c.beginPath(); c.arc(p.x, p.y + 1, 4, 0, TAU); c.stroke();
