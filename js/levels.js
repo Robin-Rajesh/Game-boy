@@ -57,7 +57,7 @@ export function buildLevel(ci, ch, W) {
   [0.14, 0.38, 0.62, 0.84].forEach((f, i) => ev.push({ t: LEN * f, type: 'echo', idx: i }));
   // power sparks + a heart
   [0.08, 0.3, 0.52, 0.74].forEach((f) => ev.push({ t: LEN * f + 1.7, type: 'spark' }));
-  ev.push({ t: LEN * 0.56, type: 'heart' });
+  ev.push({ t: LEN * 0.36, type: 'heart' }, { t: LEN * 0.7, type: 'heart' });
   // chapter-specific hazards
   if (ch.modifier === 'wind') for (let tt = 6; tt < LEN; tt += 7 + r() * 4) ev.push({ t: tt, type: 'wind', v: (r() < 0.5 ? -1 : 1) * (40 + r() * 50) });
   if (ch.modifier === 'spores') for (let tt = 8; tt < LEN; tt += 6 + r() * 4) ev.push({ t: tt, type: 'zone', x: 0.15 + r() * 0.7 });

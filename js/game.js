@@ -8,9 +8,9 @@ import { buildLevel } from './levels.js';
 import { TAU, clamp, lerp, rand, ease, glow, bulletSprite, glowSprite, rgba, drawVignette } from './gfx.js';
 
 export const DIFF = {
-  story:  { hp: 8, bspd: 0.8, dens: 0.6, bossHp: 0.75, label: 'Story' },
-  normal: { hp: 5, bspd: 1, dens: 1, bossHp: 1, label: 'Normal' },
-  hard:   { hp: 3, bspd: 1.15, dens: 1.25, bossHp: 1.2, label: 'Fortissimo' },
+  story:  { hp: 9, bspd: 0.72, dens: 0.5, bossHp: 0.65, label: 'Story' },
+  normal: { hp: 6, bspd: 0.88, dens: 0.82, bossHp: 0.85, label: 'Normal' },
+  hard:   { hp: 4, bspd: 1.05, dens: 1.1, bossHp: 1.05, label: 'Fortissimo' },
 };
 
 const ROMAN = ['I', 'II', 'III', 'IV'];
@@ -195,7 +195,7 @@ export class Game {
 
   spawn(kind, x, y, p = {}) {
     const K = KINDS[kind];
-    const hpm = 1 + this.ci * 0.15;
+    const hpm = 1 + this.ci * 0.1;
     const e = { kind, x, y, r: K.r, hp: K.hp * hpm, maxHp: K.hp * hpm, t: 0, ph: rand(TAU), off: Math.floor(rand(16)), flash: 0, alt: Math.random() < 0.5 };
     K.init(e, p, this);
     this.enemies.push(e);
@@ -297,7 +297,7 @@ export class Game {
   hurt() {
     const p = this.player;
     if (p.inv > 0 || !p.alive) return;
-    p.hp--; this.hits++; p.inv = 2.2;
+    p.hp--; this.hits++; p.inv = 2.7;
     this.chain = 0; this.mult = 1;
     p.power = Math.max(1, p.power - 1);
     this.shake = 12; this.flash = { col: '#ff3050', a: 0.45 };
@@ -436,7 +436,7 @@ export class Game {
       if (b.x < -30 || b.x > W + 30 || b.y < -40 || b.y > H + 30) { b.dead = true; continue; }
       if (!p.alive) continue;
       const dx = b.x - p.x, dy = b.y - p.y, d2 = dx * dx + dy * dy;
-      const hr = b.r * 0.62 + 2.2;
+      const hr = b.r * 0.55 + 1.8;
       if (d2 < hr * hr) { if (p.inv <= 0) { b.dead = true; this.hurt(); } }
       else if (!b.grazed && d2 < (b.r + 15) ** 2) {
         b.grazed = true; this.grazes++;

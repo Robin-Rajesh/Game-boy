@@ -43,7 +43,7 @@ Each friend you save joins your **Choir**: a glowing companion that orbits you a
 
 **Keyboard:** WASD / arrows to move · Shift for precise movement · Space or X for Crescendo · P / Esc to pause.
 
-**Difficulty:** *Story* (8 flames, gentler patterns), *Normal* (5 flames), *Fortissimo* (3 flames, denser and faster).
+**Difficulty:** *Story* (9 flames, gentle patterns), *Normal* (6 flames), *Fortissimo* (4 flames, denser and faster).
 
 ## 🚀 Run it
 
